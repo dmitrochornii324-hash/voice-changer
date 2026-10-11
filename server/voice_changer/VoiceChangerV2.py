@@ -277,12 +277,7 @@ class VoiceChangerV2(VoiceChangerIF):
 
                 if receivedData.shape[0] != result.shape[0]:
                     # print("TODO FIX:::::PADDING", receivedData.shape[0], result.shape[0])
-                    if self.voiceChanger.voiceChangerType == "LLVC":
-                        outputData = result
-                    else:
-                        outputData = pad_array(result, receivedData.shape[0])
-
-                    pass
+                    outputData = pad_array(result, receivedData.shape[0])
                 else:
                     outputData = result
 

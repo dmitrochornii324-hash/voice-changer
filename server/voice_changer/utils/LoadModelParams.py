@@ -6,9 +6,6 @@ from typing import Literal, TypeAlias
 LoadModelParamFileKind: TypeAlias = Literal[
     "rvcModel",
     "rvcIndex",
-    "beatriceModel",
-    "llvcModel",
-    "llvcConfig",
     "easyVCModel",
 ]
 
