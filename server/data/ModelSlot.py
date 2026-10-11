@@ -44,25 +44,6 @@ class RVCModelSlot(ModelSlot):
 
 
 @dataclass
-class DDSPSVCModelSlot(ModelSlot):
-    voiceChangerType: VoiceChangerType = "DDSP-SVC"
-    modelFile: str = ""
-    configFile: str = ""
-    diffModelFile: str = ""
-    diffConfigFile: str = ""
-    dstId: int = 0
-    isONNX: bool = False
-
-    sampleId: str = ""
-    defaultTune: int = 0
-    enhancer: bool = False
-    diffusion: bool = True
-    acc: int = 20
-    kstep: int = 100
-    speakers: dict = field(default_factory=lambda: {1: "user"})
-
-
-@dataclass
 class DiffusionSVCModelSlot(ModelSlot):
     voiceChangerType: VoiceChangerType = "Diffusion-SVC"
     modelFile: str = ""
@@ -109,7 +90,6 @@ class EasyVCModelSlot(ModelSlot):
 ModelSlots: TypeAlias = Union[
     ModelSlot,
     RVCModelSlot,
-    DDSPSVCModelSlot,
     DiffusionSVCModelSlot,
     BeatriceModelSlot,
     LLVCModelSlot,
@@ -128,9 +108,6 @@ def loadSlotInfo(model_dir: str, slotIndex: int | StaticSlot) -> ModelSlots:
     if slotInfo.voiceChangerType == "RVC":
         slotInfoKey.extend(list(RVCModelSlot.__annotations__.keys()))
         return RVCModelSlot(**{k: v for k, v in jsonDict.items() if k in slotInfoKey})
-    elif slotInfo.voiceChangerType == "DDSP-SVC":
-        slotInfoKey.extend(list(DDSPSVCModelSlot.__annotations__.keys()))
-        return DDSPSVCModelSlot(**{k: v for k, v in jsonDict.items() if k in slotInfoKey})
     elif slotInfo.voiceChangerType == "Diffusion-SVC":
         slotInfoKey.extend(list(DiffusionSVCModelSlot.__annotations__.keys()))
         return DiffusionSVCModelSlot(**{k: v for k, v in jsonDict.items() if k in slotInfoKey})
