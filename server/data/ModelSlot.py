@@ -44,23 +44,6 @@ class RVCModelSlot(ModelSlot):
 
 
 @dataclass
-class SoVitsSvc40ModelSlot(ModelSlot):
-    voiceChangerType: VoiceChangerType = "so-vits-svc-40"
-    modelFile: str = ""
-    configFile: str = ""
-    clusterFile: str = ""
-    dstId: int = 0
-    isONNX: bool = False
-
-    sampleId: str = ""
-
-    defaultTune: int = 0
-    defaultClusterInferRatio: float = 0.0
-    noiseScale: float = 0.0
-    speakers: dict = field(default_factory=lambda: {1: "user"})
-
-
-@dataclass
 class DDSPSVCModelSlot(ModelSlot):
     voiceChangerType: VoiceChangerType = "DDSP-SVC"
     modelFile: str = ""
@@ -126,7 +109,6 @@ class EasyVCModelSlot(ModelSlot):
 ModelSlots: TypeAlias = Union[
     ModelSlot,
     RVCModelSlot,
-    SoVitsSvc40ModelSlot,
     DDSPSVCModelSlot,
     DiffusionSVCModelSlot,
     BeatriceModelSlot,
@@ -146,9 +128,6 @@ def loadSlotInfo(model_dir: str, slotIndex: int | StaticSlot) -> ModelSlots:
     if slotInfo.voiceChangerType == "RVC":
         slotInfoKey.extend(list(RVCModelSlot.__annotations__.keys()))
         return RVCModelSlot(**{k: v for k, v in jsonDict.items() if k in slotInfoKey})
-    elif slotInfo.voiceChangerType == "so-vits-svc-40":
-        slotInfoKey.extend(list(SoVitsSvc40ModelSlot.__annotations__.keys()))
-        return SoVitsSvc40ModelSlot(**{k: v for k, v in jsonDict.items() if k in slotInfoKey})
     elif slotInfo.voiceChangerType == "DDSP-SVC":
         slotInfoKey.extend(list(DDSPSVCModelSlot.__annotations__.keys()))
         return DDSPSVCModelSlot(**{k: v for k, v in jsonDict.items() if k in slotInfoKey})
