@@ -14,8 +14,6 @@ if __name__ == "__main__":
         content_vec_500_onnx_on="",
         hubert_base="",
         hubert_base_jp="",
-        hubert_soft="",
-        nsf_hifigan="",
         crepe_onnx_full="",
         crepe_onnx_tiny="",
         rmvpe="",

@@ -9,7 +9,6 @@ from mods.log_control import VoiceChangaerLogger
 from voice_changer.Local.ServerDevice import ServerDevice, ServerDeviceCallbacks
 from voice_changer.ModelSlotManager import ModelSlotManager
 from voice_changer.RVC.RVCModelMerger import RVCModelMerger
-from voice_changer.VoiceChanger import VoiceChanger
 from const import STORED_SETTING_FILE, UPLOAD_DIR
 from voice_changer.VoiceChangerV2 import VoiceChangerV2
 from voice_changer.utils.LoadModelParams import LoadModelParamFile, LoadModelParams
@@ -73,7 +72,7 @@ class VoiceChangerManager(ServerDeviceCallbacks):
     def __init__(self, params: VoiceChangerParams):
         logger.info("[Voice Changer] VoiceChangerManager initializing...")
         self.params = params
-        self.voiceChanger: VoiceChanger = None
+        self.voiceChanger: VoiceChangerV2 | None = None
         self.settings: VoiceChangerManagerSettings = VoiceChangerManagerSettings()
 
         self.modelSlotManager = ModelSlotManager.get_instance(self.params.model_dir)
@@ -204,12 +203,6 @@ class VoiceChangerManager(ServerDeviceCallbacks):
             return
         elif slotInfo.voiceChangerType == "RVC":
             logger.info("................RVC")
-            # from voice_changer.RVC.RVC import RVC
-
-            # self.voiceChangerModel = RVC(self.params, slotInfo)
-            # self.voiceChanger = VoiceChanger(self.params)
-            # self.voiceChanger.setModel(self.voiceChangerModel)
-
             from voice_changer.RVC.RVCr2 import RVCr2
 
             self.voiceChangerModel = RVCr2(self.params, slotInfo)

@@ -57,8 +57,6 @@ def setupArgParser():
     parser.add_argument("--content_vec_500_onnx_on", type=strtobool, default=True, help="use or not onnx for  content_vec_500")
     parser.add_argument("--hubert_base", type=str, default="pretrain/hubert_base.pt", help="path to hubert_base model(pytorch)")
     parser.add_argument("--hubert_base_jp", type=str, default="pretrain/rinna_hubert_base_jp.pt", help="path to hubert_base_jp model(pytorch)")
-    parser.add_argument("--hubert_soft", type=str, default="pretrain/hubert/hubert-soft-0d54a1f4.pt", help="path to hubert_soft model(pytorch)")
-    parser.add_argument("--nsf_hifigan", type=str, default="pretrain/nsf_hifigan/model", help="path to nsf_hifigan model(pytorch)")
     parser.add_argument("--crepe_onnx_full", type=str, default="pretrain/crepe_onnx_full.onnx", help="path to crepe_onnx_full")
     parser.add_argument("--crepe_onnx_tiny", type=str, default="pretrain/crepe_onnx_tiny.onnx", help="path to crepe_onnx_tiny")
     parser.add_argument("--rmvpe", type=str, default="pretrain/rmvpe.pt", help="path to rmvpe")
@@ -102,8 +100,6 @@ voiceChangerParams = VoiceChangerParams(
     content_vec_500_onnx_on=args.content_vec_500_onnx_on,
     hubert_base=args.hubert_base,
     hubert_base_jp=args.hubert_base_jp,
-    hubert_soft=args.hubert_soft,
-    nsf_hifigan=args.nsf_hifigan,
     crepe_onnx_full=args.crepe_onnx_full,
     crepe_onnx_tiny=args.crepe_onnx_tiny,
     rmvpe=args.rmvpe,
