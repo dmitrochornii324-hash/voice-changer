@@ -5,7 +5,6 @@
 ・前処理、メイン処理の分割を廃止(VoiceChangeModelでの無駄な型変換などを回避するため)
 
 - 適用VoiceChangerModel
-・DiffusionSVC
 ・RVC
 """
 

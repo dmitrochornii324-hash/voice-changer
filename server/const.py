@@ -7,7 +7,6 @@ from typing import Literal, TypeAlias
 
 VoiceChangerType: TypeAlias = Literal[
     "RVC",
-    "Diffusion-SVC",
     "Beatrice",
     "LLVC",
     "EasyVC",
@@ -73,9 +72,6 @@ class EnumInferenceTypes(Enum):
     onnxRVCNono = "onnxRVCNono"
 
     easyVC = "easyVC"
-
-
-DiffusionSVCInferenceType: TypeAlias = Literal["combo",]
 
 
 PitchExtractorType: TypeAlias = Literal[

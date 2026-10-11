@@ -1,5 +1,5 @@
 from typing import TypeAlias, Union
-from const import MAX_SLOT_NUM, MODEL_DIR_STATIC, DiffusionSVCInferenceType, EnumInferenceTypes, EmbedderType, StaticSlot, VoiceChangerType
+from const import MAX_SLOT_NUM, MODEL_DIR_STATIC, EnumInferenceTypes, EmbedderType, StaticSlot, VoiceChangerType
 
 from dataclasses import dataclass, asdict, field
 
@@ -44,27 +44,6 @@ class RVCModelSlot(ModelSlot):
 
 
 @dataclass
-class DiffusionSVCModelSlot(ModelSlot):
-    voiceChangerType: VoiceChangerType = "Diffusion-SVC"
-    modelFile: str = ""
-    isONNX: bool = False
-    modelType: DiffusionSVCInferenceType = "combo"
-    dstId: int = 1
-
-    sampleId: str = ""
-    defaultTune: int = 0
-    defaultKstep: int = 20
-    defaultSpeedup: int = 10
-    kStepMax: int = 100
-    nLayers: int = 20
-    nnLayers: int = 20
-    speakers: dict = field(default_factory=lambda: {1: "user"})
-    embedder: EmbedderType = "hubert_base"
-    samplingRate: int = 44100
-    embChannels: int = 768
-
-
-@dataclass
 class BeatriceModelSlot(ModelSlot):
     voiceChangerType: VoiceChangerType = "Beatrice"
     modelFile: str = ""
@@ -90,7 +69,6 @@ class EasyVCModelSlot(ModelSlot):
 ModelSlots: TypeAlias = Union[
     ModelSlot,
     RVCModelSlot,
-    DiffusionSVCModelSlot,
     BeatriceModelSlot,
     LLVCModelSlot,
     EasyVCModelSlot,
@@ -108,9 +86,6 @@ def loadSlotInfo(model_dir: str, slotIndex: int | StaticSlot) -> ModelSlots:
     if slotInfo.voiceChangerType == "RVC":
         slotInfoKey.extend(list(RVCModelSlot.__annotations__.keys()))
         return RVCModelSlot(**{k: v for k, v in jsonDict.items() if k in slotInfoKey})
-    elif slotInfo.voiceChangerType == "Diffusion-SVC":
-        slotInfoKey.extend(list(DiffusionSVCModelSlot.__annotations__.keys()))
-        return DiffusionSVCModelSlot(**{k: v for k, v in jsonDict.items() if k in slotInfoKey})
     elif slotInfo.voiceChangerType == "Beatrice":
         slotInfoKey.extend(list(BeatriceModelSlot.__annotations__.keys()))
         if slotIndex == "Beatrice-JVS":  # STATIC Model
