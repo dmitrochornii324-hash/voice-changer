@@ -32,7 +32,7 @@ press start → Discord with microphone = "CABLE Output" transmits the converted
 
 | ID | Title | Status |
 | --- | --- | --- |
-| T-001 | Strip non-RVC model families and their dependencies | open |
+| T-001 | Strip non-RVC model families and their dependencies | done |
 | T-002 | Default to server device mode; remove client-mode audio path from UI | open |
 | T-003 | Minimal UI + desktop window wrapper | open |
 | T-004 | PyInstaller freeze spike on Windows (riskiest — do early) | open |

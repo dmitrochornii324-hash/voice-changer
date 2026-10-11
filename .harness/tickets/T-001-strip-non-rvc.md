@@ -1,7 +1,7 @@
 # T-001: Strip non-RVC model families and their dependencies
 
 - **PRD**: .harness/prds/PRD-001-phase1-mvp.md
-- **Status**: open
+- **Status**: done
 - **Date**: 2026-10-11
 
 ## Goal
@@ -11,11 +11,11 @@ the server so the dependency set and maintenance surface shrink to RVC only.
 
 ## Steps
 
-- [ ] Inventory imports of each family dir under `server/voice_changer/` (entry: `VoiceChangerManager`, `const.py`, REST/sio handlers).
-- [ ] Remove family dirs + their registrations, one commit per family (revertible).
-- [ ] Prune now-unused packages from `server/requirements.txt` (verify nothing RVC-side imports them).
-- [ ] Remove dead UI branches for removed families in `client/demo`.
-- [ ] Run gate; boot server; verify RVC conversion still works end-to-end.
+- [x] Inventory imports of each family dir under `server/voice_changer/` (entry: `VoiceChangerManager`, `const.py`, REST/sio handlers).
+- [x] Remove family dirs + their registrations, one commit per family (revertible).
+- [x] Prune now-unused packages from `server/requirements.txt` (verify nothing RVC-side imports them).
+- [x] Remove dead UI branches for removed families in `client/demo`.
+- [x] Run gate; boot server; verify RVC conversion still works end-to-end.
 
 ## Done when
 
