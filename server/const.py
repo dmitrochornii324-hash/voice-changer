@@ -7,12 +7,9 @@ from typing import Literal, TypeAlias
 
 VoiceChangerType: TypeAlias = Literal[
     "RVC",
-    "Beatrice",
     "LLVC",
     "EasyVC",
 ]
-
-StaticSlot: TypeAlias = Literal["Beatrice-JVS",]
 
 STORED_SETTING_FILE = "stored_setting.json"
 
@@ -36,9 +33,6 @@ NATIVE_CLIENT_FILE_MAC = (
     if hasattr(sys, "_MEIPASS")
     else "voice-changer-native-client"
 )
-
-MODEL_DIR_STATIC = os.path.join(sys._MEIPASS, "model_dir_static") if hasattr(sys, "_MEIPASS") else "model_dir_static"
-
 
 HUBERT_ONNX_MODEL_PATH = os.path.join(sys._MEIPASS, "model_hubert/hubert_simple.onnx") if hasattr(sys, "_MEIPASS") else "model_hubert/hubert_simple.onnx"  # type: ignore
 

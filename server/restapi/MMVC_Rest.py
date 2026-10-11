@@ -13,7 +13,7 @@ from voice_changer.VoiceChangerManager import VoiceChangerManager
 from restapi.MMVC_Rest_Hello import MMVC_Rest_Hello
 from restapi.MMVC_Rest_VoiceChanger import MMVC_Rest_VoiceChanger
 from restapi.MMVC_Rest_Fileuploader import MMVC_Rest_Fileuploader
-from const import MODEL_DIR_STATIC, UPLOAD_DIR, getFrontendPath, TMP_DIR
+from const import UPLOAD_DIR, getFrontendPath, TMP_DIR
 from voice_changer.utils.VoiceChangerParams import VoiceChangerParams
 
 logger = VoiceChangaerLogger.get_instance().getLogger()
@@ -75,10 +75,6 @@ class MMVC_Rest:
             )
             app_fastapi.mount("/tmp", StaticFiles(directory=f"{TMP_DIR}"), name="static")
             app_fastapi.mount("/upload_dir", StaticFiles(directory=f"{UPLOAD_DIR}"), name="static")
-            try:
-                app_fastapi.mount("/model_dir_static", StaticFiles(directory=f"{MODEL_DIR_STATIC}"), name="static")
-            except Exception as e:
-                print("Locating model_dir_static failed", e)
 
             if sys.platform.startswith("darwin"):
                 p1 = os.path.dirname(sys._MEIPASS)

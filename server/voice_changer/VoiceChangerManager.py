@@ -10,7 +10,7 @@ from voice_changer.Local.ServerDevice import ServerDevice, ServerDeviceCallbacks
 from voice_changer.ModelSlotManager import ModelSlotManager
 from voice_changer.RVC.RVCModelMerger import RVCModelMerger
 from voice_changer.VoiceChanger import VoiceChanger
-from const import STORED_SETTING_FILE, UPLOAD_DIR, StaticSlot
+from const import STORED_SETTING_FILE, UPLOAD_DIR
 from voice_changer.VoiceChangerV2 import VoiceChangerV2
 from voice_changer.utils.LoadModelParams import LoadModelParamFile, LoadModelParams
 from voice_changer.utils.ModelMerger import MergeElement, ModelMergerRequest
@@ -22,7 +22,6 @@ import torch
 # import threading
 from typing import Callable
 from typing import Any
-import re
 
 logger = VoiceChangaerLogger.get_instance().getLogger()
 
@@ -36,7 +35,7 @@ class GPUInfo:
 
 @dataclass()
 class VoiceChangerManagerSettings:
-    modelSlotIndex: int | StaticSlot = -1
+    modelSlotIndex: int = -1
     passThrough: bool = False  # 0: off, 1: on
     # ↓mutableな物だけ列挙
     boolData: list[str] = field(default_factory=lambda: ["passThrough"])
@@ -169,12 +168,6 @@ class VoiceChangerManager(ServerDeviceCallbacks):
 
                 slotInfo = RVCModelSlotGenerator.loadModel(params)
                 self.modelSlotManager.save_model_slot(params.slot, slotInfo)
-            elif params.voiceChangerType == "Beatrice":
-                from voice_changer.Beatrice.BeatriceModelSlotGenerator import BeatriceModelSlotGenerator
-
-                slotInfo = BeatriceModelSlotGenerator.loadModel(params)
-                self.modelSlotManager.save_model_slot(params.slot, slotInfo)
-
             elif params.voiceChangerType == "LLVC":
                 from voice_changer.LLVC.LLVCModelSlotGenerator import LLVCModelSlotGenerator
 
@@ -215,7 +208,7 @@ class VoiceChangerManager(ServerDeviceCallbacks):
         else:
             return {"status": "ERROR", "msg": "no model loaded"}
 
-    def generateVoiceChanger(self, val: int | StaticSlot):
+    def generateVoiceChanger(self, val: int):
         slotInfo = self.modelSlotManager.get_slot_info(val)
         if slotInfo is None:
             logger.info(f"[Voice Changer] model slot is not found {val}")
@@ -234,16 +227,6 @@ class VoiceChangerManager(ServerDeviceCallbacks):
             self.voiceChanger = VoiceChangerV2(self.params)
             self.voiceChanger.setModel(self.voiceChangerModel)
 
-        elif slotInfo.voiceChangerType == "Beatrice":
-            logger.info("................Beatrice")
-            from voice_changer.Beatrice.Beatrice import Beatrice
-
-            if val == "Beatrice-JVS":
-                self.voiceChangerModel = Beatrice(self.params, slotInfo, static=True)
-            else:
-                self.voiceChangerModel = Beatrice(self.params, slotInfo)
-            self.voiceChanger = VoiceChangerV2(self.params)
-            self.voiceChanger.setModel(self.voiceChangerModel)
         elif slotInfo.voiceChangerType == "LLVC":
             logger.info("................LLVC")
             from voice_changer.LLVC.LLVC import LLVC
@@ -279,11 +262,7 @@ class VoiceChangerManager(ServerDeviceCallbacks):
             setattr(self.settings, key, newVal)
         elif key in self.settings.intData:
             if key == "modelSlotIndex":
-                try:
-                    newVal = int(val)
-                    newVal = newVal % 1000
-                except:
-                    newVal = re.sub("^\d+", "", val)  # 先頭の数字を取り除く。
+                newVal = int(val) % 1000
                 logger.info(f"[Voice Changer] model slot is changed {self.settings.modelSlotIndex} -> {newVal}")
                 self.generateVoiceChanger(newVal)
                 # キャッシュ設定の反映
@@ -319,7 +298,7 @@ class VoiceChangerManager(ServerDeviceCallbacks):
         req = json.loads(request)
         req = ModelMergerRequest(**req)
         req.files = [MergeElement(**f) for f in req.files]
-        slot = len(self.modelSlotManager.getAllSlotInfo()) - 2  #  Beatrice-JVS が追加されたので -1 -> -2
+        slot = len(self.modelSlotManager.getAllSlotInfo()) - 1
         if req.voiceChangerType == "RVC":
             merged = RVCModelMerger.merge_models(self.params, req, slot)
             loadParam = LoadModelParams(voiceChangerType="RVC", slot=slot, isSampleMode=False, sampleId="", files=[LoadModelParamFile(name=os.path.basename(merged), kind="rvcModel", dir="")], params={})

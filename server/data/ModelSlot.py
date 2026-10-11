@@ -1,5 +1,5 @@
 from typing import TypeAlias, Union
-from const import MAX_SLOT_NUM, MODEL_DIR_STATIC, EnumInferenceTypes, EmbedderType, StaticSlot, VoiceChangerType
+from const import MAX_SLOT_NUM, EnumInferenceTypes, EmbedderType, VoiceChangerType
 
 from dataclasses import dataclass, asdict, field
 
@@ -9,7 +9,7 @@ import json
 
 @dataclass
 class ModelSlot:
-    slotIndex: int | StaticSlot = -1
+    slotIndex: int = -1
     voiceChangerType: VoiceChangerType | None = None
     name: str = ""
     description: str = ""
@@ -44,14 +44,6 @@ class RVCModelSlot(ModelSlot):
 
 
 @dataclass
-class BeatriceModelSlot(ModelSlot):
-    voiceChangerType: VoiceChangerType = "Beatrice"
-    modelFile: str = ""
-    dstId: int = 1
-    speakers: dict = field(default_factory=lambda: {1: "user1", 2: "user2"})
-
-
-@dataclass
 class LLVCModelSlot(ModelSlot):
     voiceChangerType: VoiceChangerType = "LLVC"
     modelFile: str = ""
@@ -69,13 +61,12 @@ class EasyVCModelSlot(ModelSlot):
 ModelSlots: TypeAlias = Union[
     ModelSlot,
     RVCModelSlot,
-    BeatriceModelSlot,
     LLVCModelSlot,
     EasyVCModelSlot,
 ]
 
 
-def loadSlotInfo(model_dir: str, slotIndex: int | StaticSlot) -> ModelSlots:
+def loadSlotInfo(model_dir: str, slotIndex: int) -> ModelSlots:
     slotDir = os.path.join(model_dir, str(slotIndex))
     jsonFile = os.path.join(slotDir, "params.json")
     if not os.path.exists(jsonFile):
@@ -86,11 +77,6 @@ def loadSlotInfo(model_dir: str, slotIndex: int | StaticSlot) -> ModelSlots:
     if slotInfo.voiceChangerType == "RVC":
         slotInfoKey.extend(list(RVCModelSlot.__annotations__.keys()))
         return RVCModelSlot(**{k: v for k, v in jsonDict.items() if k in slotInfoKey})
-    elif slotInfo.voiceChangerType == "Beatrice":
-        slotInfoKey.extend(list(BeatriceModelSlot.__annotations__.keys()))
-        if slotIndex == "Beatrice-JVS":  # STATIC Model
-            return BeatriceModelSlot(**{k: v for k, v in jsonDict.items() if k in slotInfoKey})
-        return BeatriceModelSlot(**{k: v for k, v in jsonDict.items() if k in slotInfoKey})
     elif slotInfo.voiceChangerType == "LLVC":
         slotInfoKey.extend(list(LLVCModelSlot.__annotations__.keys()))
         return LLVCModelSlot(**{k: v for k, v in jsonDict.items() if k in slotInfoKey})
@@ -107,9 +93,6 @@ def loadAllSlotInfo(model_dir: str):
         slotInfo = loadSlotInfo(model_dir, slotIndex)
         slotInfo.slotIndex = slotIndex  # スロットインデックスは動的に注入
         slotInfos.append(slotInfo)
-
-    slotInfo = loadSlotInfo(MODEL_DIR_STATIC, "Beatrice-JVS")
-    slotInfos.append(slotInfo)
     return slotInfos
 
 
