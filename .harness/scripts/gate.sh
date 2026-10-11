@@ -10,12 +10,9 @@ PY="$HOME/miniconda3/envs/vcclient-dev/bin/python"
 echo "gate:"
 
 # 1. Python syntax across the server tree (fast, catches broken edits)
-# Non-RVC model dirs are excluded: upstream ships them with syntax errors and they are
-# scheduled for removal (ticket T-001). Drop the exclusion once T-001 is done.
-EXCLUDE='voice_changer/(DiffusionSVC|DDSP_SVC|SoVitsSvc40|MMVCv13|MMVCv15|LLVC|EasyVC|Beatrice)'
-if "$PY" -m compileall -q -x "$EXCLUDE" server 2>&1 | head -20 | grep -q .; then
+if "$PY" -m compileall -q server 2>&1 | head -20 | grep -q .; then
   echo "  FAIL server python syntax (compileall)"
-  "$PY" -m compileall -q -x "$EXCLUDE" server 2>&1 | head -20
+  "$PY" -m compileall -q server 2>&1 | head -20
   fail=1
 else
   echo "  OK   server python syntax"
