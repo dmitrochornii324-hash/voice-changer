@@ -6,7 +6,6 @@ from voice_changer.RVC.embedder.FairseqContentvec import FairseqContentvec
 from voice_changer.RVC.embedder.FairseqHubert import FairseqHubert
 from voice_changer.RVC.embedder.FairseqHubertJp import FairseqHubertJp
 from voice_changer.RVC.embedder.OnnxContentvec import OnnxContentvec
-from voice_changer.RVC.embedder.Whisper import Whisper
 from voice_changer.utils.VoiceChangerParams import VoiceChangerParams
 
 
@@ -59,8 +58,5 @@ class EmbedderManager:
                 print(e)
                 file = cls.params.hubert_base
                 return FairseqContentvec().loadModel(file, dev, isHalf)
-        elif embederType == "whisper":
-            file = cls.params.whisper_tiny
-            return Whisper().loadModel(file, dev, isHalf)
         else:
             return FairseqHubert().loadModel(file, dev, isHalf)

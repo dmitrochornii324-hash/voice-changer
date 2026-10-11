@@ -7,7 +7,6 @@ from typing import Literal, TypeAlias
 
 VoiceChangerType: TypeAlias = Literal[
     "RVC",
-    "EasyVC",
 ]
 
 STORED_SETTING_FILE = "stored_setting.json"
@@ -49,7 +48,6 @@ EmbedderType: TypeAlias = Literal[
     "hubert_base",
     "contentvec",
     "hubert-base-japanese",
-    "whisper",
 ]
 
 
@@ -63,8 +61,6 @@ class EnumInferenceTypes(Enum):
     pyTorchVoRASbeta = "pyTorchVoRASbeta"
     onnxRVC = "onnxRVC"
     onnxRVCNono = "onnxRVCNono"
-
-    easyVC = "easyVC"
 
 
 PitchExtractorType: TypeAlias = Literal[

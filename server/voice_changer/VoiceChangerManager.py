@@ -168,11 +168,6 @@ class VoiceChangerManager(ServerDeviceCallbacks):
 
                 slotInfo = RVCModelSlotGenerator.loadModel(params)
                 self.modelSlotManager.save_model_slot(params.slot, slotInfo)
-            elif params.voiceChangerType == "EasyVC":
-                from voice_changer.EasyVC.EasyVCModelSlotGenerator import EasyVCModelSlotGenerator
-
-                slotInfo = EasyVCModelSlotGenerator.loadModel(params)
-                self.modelSlotManager.save_model_slot(params.slot, slotInfo)
 
             logger.info(f"params, {params}")
 
@@ -220,15 +215,6 @@ class VoiceChangerManager(ServerDeviceCallbacks):
             self.voiceChangerModel = RVCr2(self.params, slotInfo)
             self.voiceChanger = VoiceChangerV2(self.params)
             self.voiceChanger.setModel(self.voiceChangerModel)
-
-        elif slotInfo.voiceChangerType == "EasyVC":
-            logger.info("................EasyVC")
-            from voice_changer.EasyVC.EasyVC import EasyVC
-
-            self.voiceChangerModel = EasyVC(self.params, slotInfo)
-            self.voiceChanger = VoiceChangerV2(self.params)
-            self.voiceChanger.setModel(self.voiceChangerModel)
-            pass
 
         else:
             logger.info(f"[Voice Changer] unknown voice changer model: {slotInfo.voiceChangerType}")

@@ -43,18 +43,9 @@ class RVCModelSlot(ModelSlot):
     version: str = "v2"
 
 
-@dataclass
-class EasyVCModelSlot(ModelSlot):
-    voiceChangerType: VoiceChangerType = "EasyVC"
-    modelFile: str = ""
-    version: str = ""
-    samplingRate: int = -1
-
-
 ModelSlots: TypeAlias = Union[
     ModelSlot,
     RVCModelSlot,
-    EasyVCModelSlot,
 ]
 
 
@@ -69,9 +60,6 @@ def loadSlotInfo(model_dir: str, slotIndex: int) -> ModelSlots:
     if slotInfo.voiceChangerType == "RVC":
         slotInfoKey.extend(list(RVCModelSlot.__annotations__.keys()))
         return RVCModelSlot(**{k: v for k, v in jsonDict.items() if k in slotInfoKey})
-    elif slotInfo.voiceChangerType == "EasyVC":
-        slotInfoKey.extend(list(EasyVCModelSlot.__annotations__.keys()))
-        return EasyVCModelSlot(**{k: v for k, v in jsonDict.items() if k in slotInfoKey})
     else:
         return ModelSlot()
 

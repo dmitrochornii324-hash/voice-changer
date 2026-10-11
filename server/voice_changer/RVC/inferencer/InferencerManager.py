@@ -1,5 +1,4 @@
 from const import EnumInferenceTypes
-from voice_changer.RVC.inferencer.EasyVCInferencerONNX import EasyVCInferencerONNX
 from voice_changer.RVC.inferencer.Inferencer import Inferencer
 from voice_changer.RVC.inferencer.OnnxRVCInferencer import OnnxRVCInferencer
 from voice_changer.RVC.inferencer.OnnxRVCInferencerNono import OnnxRVCInferencerNono
@@ -57,8 +56,5 @@ class InferencerManager:
             return OnnxRVCInferencer().loadModel(file, gpu, inferencerTypeVersion)
         elif inferencerType == EnumInferenceTypes.onnxRVCNono or inferencerType == EnumInferenceTypes.onnxRVCNono.value:
             return OnnxRVCInferencerNono().loadModel(file, gpu, inferencerTypeVersion)
-        elif inferencerType == EnumInferenceTypes.easyVC or inferencerType == EnumInferenceTypes.easyVC.value:
-            return EasyVCInferencerONNX().loadModel(file, gpu)
-
         else:
             raise RuntimeError("[Voice Changer] Inferencer not found", inferencerType)
