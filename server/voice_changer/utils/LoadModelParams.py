@@ -4,8 +4,6 @@ from const import VoiceChangerType
 from typing import Literal, TypeAlias
 
 LoadModelParamFileKind: TypeAlias = Literal[
-    "mmvcv13Config",
-    "mmvcv13Model",
     "mmvcv15Config",
     "mmvcv15Model",
     "mmvcv15Correspondence",

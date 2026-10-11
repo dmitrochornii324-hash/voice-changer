@@ -6,7 +6,6 @@ from typing import Literal, TypeAlias
 
 
 VoiceChangerType: TypeAlias = Literal[
-    "MMVCv13",
     "MMVCv15",
     "so-vits-svc-40",
     "DDSP-SVC",

@@ -169,11 +169,6 @@ class VoiceChangerManager(ServerDeviceCallbacks):
 
                 slotInfo = RVCModelSlotGenerator.loadModel(params)
                 self.modelSlotManager.save_model_slot(params.slot, slotInfo)
-            elif params.voiceChangerType == "MMVCv13":
-                from voice_changer.MMVCv13.MMVCv13ModelSlotGenerator import MMVCv13ModelSlotGenerator
-
-                slotInfo = MMVCv13ModelSlotGenerator.loadModel(params)
-                self.modelSlotManager.save_model_slot(params.slot, slotInfo)
             elif params.voiceChangerType == "MMVCv15":
                 from voice_changer.MMVCv15.MMVCv15ModelSlotGenerator import MMVCv15ModelSlotGenerator
 
@@ -259,13 +254,6 @@ class VoiceChangerManager(ServerDeviceCallbacks):
             self.voiceChanger = VoiceChangerV2(self.params)
             self.voiceChanger.setModel(self.voiceChangerModel)
 
-        elif slotInfo.voiceChangerType == "MMVCv13":
-            logger.info("................MMVCv13")
-            from voice_changer.MMVCv13.MMVCv13 import MMVCv13
-
-            self.voiceChangerModel = MMVCv13(slotInfo)
-            self.voiceChanger = VoiceChanger(self.params)
-            self.voiceChanger.setModel(self.voiceChangerModel)
         elif slotInfo.voiceChangerType == "MMVCv15":
             logger.info("................MMVCv15")
             from voice_changer.MMVCv15.MMVCv15 import MMVCv15

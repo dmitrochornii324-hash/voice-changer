@@ -44,18 +44,6 @@ class RVCModelSlot(ModelSlot):
 
 
 @dataclass
-class MMVCv13ModelSlot(ModelSlot):
-    voiceChangerType: VoiceChangerType = "MMVCv13"
-    modelFile: str = ""
-    configFile: str = ""
-    srcId: int = 107
-    dstId: int = 100
-    isONNX: bool = False
-    samplingRate: int = 24000
-    speakers: dict = field(default_factory=lambda: {107: "user", 100: "zundamon", 101: "sora", 102: "methane", 103: "tsumugi"})
-
-
-@dataclass
 class MMVCv15ModelSlot(ModelSlot):
     voiceChangerType: VoiceChangerType = "MMVCv15"
     modelFile: str = ""
@@ -152,7 +140,6 @@ class EasyVCModelSlot(ModelSlot):
 ModelSlots: TypeAlias = Union[
     ModelSlot,
     RVCModelSlot,
-    MMVCv13ModelSlot,
     MMVCv15ModelSlot,
     SoVitsSvc40ModelSlot,
     DDSPSVCModelSlot,
@@ -174,9 +161,6 @@ def loadSlotInfo(model_dir: str, slotIndex: int | StaticSlot) -> ModelSlots:
     if slotInfo.voiceChangerType == "RVC":
         slotInfoKey.extend(list(RVCModelSlot.__annotations__.keys()))
         return RVCModelSlot(**{k: v for k, v in jsonDict.items() if k in slotInfoKey})
-    elif slotInfo.voiceChangerType == "MMVCv13":
-        slotInfoKey.extend(list(MMVCv13ModelSlot.__annotations__.keys()))
-        return MMVCv13ModelSlot(**{k: v for k, v in jsonDict.items() if k in slotInfoKey})
     elif slotInfo.voiceChangerType == "MMVCv15":
         slotInfoKey.extend(list(MMVCv15ModelSlot.__annotations__.keys()))
         return MMVCv15ModelSlot(**{k: v for k, v in jsonDict.items() if k in slotInfoKey})
