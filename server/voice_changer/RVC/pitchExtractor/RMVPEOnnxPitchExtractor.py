@@ -1,6 +1,6 @@
 import numpy as np
 from const import PitchExtractorType
-from voice_changer.DiffusionSVC.pitchExtractor.PitchExtractor import PitchExtractor
+from voice_changer.RVC.pitchExtractor.PitchExtractor import PitchExtractor
 from voice_changer.RVC.deviceManager.DeviceManager import DeviceManager
 import onnxruntime
 
