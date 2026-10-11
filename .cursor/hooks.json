@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "hooks": {
+    "beforeShellExecution": [
+      {
+        "command": ".cursor/hooks/guard-pip-install.sh",
+        "matcher": "pip3? install"
+      },
+      {
+        "command": ".cursor/hooks/guard-commit.sh",
+        "matcher": "git commit"
+      }
+    ]
+  }
+}

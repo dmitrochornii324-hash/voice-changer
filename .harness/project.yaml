@@ -1,0 +1,11 @@
+# dev-harness-style project manifest (Cursor-native adaptation)
+name: voice-changer-desktop
+language: uk            # language for talking to the user; code/docs/commits are English
+phase: 1                # current phase per PROJECT_PLAN.md
+plan: PROJECT_PLAN.md
+memory: .harness/MEMORY.md
+risks: .harness/RISKS.md
+prds: .harness/prds/
+tickets: .harness/tickets/
+gate: .harness/scripts/gate.sh
+doctor: .harness/scripts/doctor.sh

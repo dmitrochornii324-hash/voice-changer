@@ -1,0 +1,16 @@
+---
+description: Conventions for the React client UI (simplification direction, server mode default)
+globs: client/**/*.ts,client/**/*.tsx
+alwaysApply: false
+---
+
+# Client UI conventions
+
+- Direction is **simplification**: the MVP UI exposes only model slot selection, input device,
+  pitch, and an on/off toggle. When touching UI, prefer removing options over adding them.
+- Server device mode is the default audio path; client (browser) audio mode is legacy for us —
+  do not invest in improving it.
+- Do not add new npm dependencies for things achievable with existing ones; the client will be
+  wrapped in a desktop shell (pywebview/Tauri), keep it free of browser-only assumptions where
+  practical.
+- UI text visible to end users: English for now (localization is out of scope for Phase 1).

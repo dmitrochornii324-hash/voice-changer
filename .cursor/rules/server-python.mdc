@@ -1,0 +1,20 @@
+---
+description: Conventions for the Python voice-changer server (RVC-only scope, legacy deps, Windows target)
+globs: server/**/*.py
+alwaysApply: false
+---
+
+# Server Python conventions
+
+- Target runtime is **Python 3.10** — no 3.11+ syntax (no `tomllib`, no `Self` type, etc.).
+- The product ships on **Windows**: use `os.path`/`pathlib` (never hardcoded `/`), do not use
+  Unix-only APIs (`fcntl`, `os.fork`), and remember `sounddevice`/WASAPI device names differ
+  from Linux.
+- RVC-only scope: do not extend or import from non-RVC model dirs
+  (`MMVCv13`, `MMVCv15`, `SoVitsSvc40`, `DDSP_SVC`, `DiffusionSVC`, `LLVC`, `EasyVC`, `Beatrice`).
+  They exist only until removed.
+- Do not add new third-party imports without pinning them in `server/requirements.txt` and
+  confirming Windows + PyInstaller compatibility. Prefer ONNX runtime paths over new torch deps.
+- Keep changes compatible with the frozen dependency stack (`pip<24.1`, `fairseq==0.12.2`);
+  do not "upgrade while you're at it".
+- Use the existing logger (`mods/log_control.py` → `VoiceChangaerLogger`), not `print`.
